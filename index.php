@@ -8,7 +8,7 @@ ob_start();
             <!-- <img src="https://flowbite.com/docs/images/logo.svg" class="h-8" alt="Flowbite Logo" /> -->
             <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">E-Ticketing</span>
         </a>
-        <?php if (!isset($_SESSION['auth'])): ?>
+        <?php if (!isset ($_SESSION['auth'])): ?>
             <div class="flex md:order-2 space-x-2 rtl:space-x-reverse">
                 <a href="login.php"
                     class="border border-gray-700 hover:border-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:border-gray-600 dark:hover:border-gray-700 dark:focus:ring-gray-800">Login</a>
