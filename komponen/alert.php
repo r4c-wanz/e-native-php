@@ -1,9 +1,8 @@
 <?php
-$file_path = __FILE__;
+$path = $_SERVER['SCRIPT_FILENAME'];
+$folder_name = '/' . explode('/', $path)[3];
 
-$folder_name = basename(dirname($file_path));
-
-if (isset($_SESSION['alert']) && (time() - $_SESSION['alert']['timestamp'] < 5)):
+if (isset ($_SESSION['alert']) && (time() - $_SESSION['alert']['timestamp'] < 5)):
     $title = $_SESSION['alert']['title'];
     $message = $_SESSION['alert']['message'];
     $type = $_SESSION['alert']['type'];
@@ -32,24 +31,25 @@ if (isset($_SESSION['alert']) && (time() - $_SESSION['alert']['timestamp'] < 5))
             <?= $message ?>
         </div>
     </div>
+    <?php ob_start(); ?>
     <script>
+        var script = document.currentScript;
         setTimeout(function () {
             var alert = document.getElementById('alert');
             alert.classList.remove('-translate-y-[calc(100%+5rem)]');
             setTimeout(function () {
                 alert.classList.add('-translate-y-[calc(100%+5rem)]');
+            }, 4000);
+            setTimeout(function () {
+                var xhr = new XMLHttpRequest();
+                xhr.open("GET", "<?= $folder_name ?>/komponen/delete-session.php", true);
+                xhr.send();
+                alert.parentNode.removeChild(alert);
+                script.parentNode.removeChild(script);
             }, 5000);
         }, 100);
-
-        var elementToDelete = document.getElementById('alert');
-        var scriptToDelete = document.currentScript;
-
-        setTimeout(function () {
-            var xhr = new XMLHttpRequest();
-            xhr.open("GET", "/<?= $folder_name ?>/komponen/delete-session.php", true);
-            xhr.send();
-            elementToDelete.parentNode.removeChild(elementToDelete);
-            scriptToDelete.parentNode.removeChild(scriptToDelete);
-        }, 6000);
     </script>
-<?php endif; ?>
+    <?php
+    $additionalScript = ob_get_clean();
+endif;
+?>

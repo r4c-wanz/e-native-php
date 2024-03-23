@@ -296,7 +296,7 @@ include './tata-letak/navbar.php';
                             <?= $data['rute_tujuan'] ?>
                         </td>
                         <td class="px-6 py-4">
-                            <?= $data['tanggal_pergi'] ?>
+                            <?= date("d-m-Y", strtotime($data['tanggal_pergi'])) ?>
                         </td>
                         <td class="px-6 py-4">
                             <a href="edit.php?id_rute=<?= $data['id_rute'] ?>"
@@ -362,7 +362,8 @@ include './tata-letak/navbar.php';
                             <?= date('H.i', strtotime($data['waktu_tiba'])) ?>
                         </td>
                         <td class="px-6 py-4">
-                            Rp <?= number_format($data['harga'], 2, ",", ".") ?>
+                            Rp
+                            <?= number_format($data['harga'], 2, ",", ".") ?>
                         </td>
                         <td class="px-6 py-4">
                             <a href="edit.php?id_jadwal=<?= $data['id_jadwal'] ?>"
@@ -376,9 +377,13 @@ include './tata-letak/navbar.php';
         </table>
     </div>
 </section>
-<?php
-include '../komponen/toast.php';
-include '../komponen/alert.php';
+
+<?php if (isset ($_SESSION['toast']) && (time() - $_SESSION['toast']['time'] < 5)): ?>
+    <div id="toast" class="fixed top-24 right-5 translate-x-[calc(100%+5rem)] z-50 min-w-80 shadow duration-700 ease-in-out">
+        <?php include '../komponen/toast.php' ?>
+    </div>
+    <?php
+endif;
 $content = ob_get_clean();
 include '../tata-letak/template.php';
 ?>

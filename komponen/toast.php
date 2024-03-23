@@ -1,55 +1,56 @@
 <?php
-$file_path = __FILE__;
-
-$folder_name = basename(dirname($file_path));
-
-if (isset($_SESSION['alert']) && (time() - $_SESSION['alert']['timestamp'] < 5)):
-    $title = $_SESSION['alert']['title'];
-    $message = $_SESSION['alert']['message'];
-    $type = $_SESSION['alert']['type'];
+$path = $_SERVER['SCRIPT_FILENAME'];
+$folder_name = '/' . explode('/', $path)[3];
+if (isset ($_SESSION['toast']) && (time() - $_SESSION['toast']['time'] < 5)):
+    $message = $_SESSION['toast']['message'];
+    $type = $_SESSION['toast']['type'];
     ?>
-    <div id="alert" <?php if ($type === 'info'): ?>
-            class="fixed left-0 top-4 right-0 -translate-y-[calc(100%+5rem)] z-50 w-full max-w-[78rem] mx-auto flex items-center p-4 mb-4 text-sm text-blue-800 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400 duration-700 shadow ease-in-out"
-        <?php elseif ($type === 'danger'): ?>
-            class="fixed left-0 top-4 right-0 -translate-y-[calc(100%+5rem)] z-50 w-full max-w-[78rem] mx-auto flex items-center p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 duration-700 shadow ease-in-out"
-        <?php elseif ($type === 'success'): ?>
-            class="fixed left-0 top-4 right-0 -translate-y-[calc(100%+5rem)] z-50 w-full max-w-[78rem] mx-auto flex items-center p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400 shadow duration-700 ease-in-out"
-        <?php elseif ($type === 'warning'): ?>
-            class="fixed left-0 top-4 right-0 -translate-y-[calc(100%+5rem)] z-50 w-full max-w-[78rem] mx-auto flex items-center p-4 text-sm text-yellow-800 rounded-lg bg-yellow-50 dark:bg-gray-800 dark:text-yellow-300 shadow duration-700 ease-in-out"
-        <?php else: ?>
-            class="fixed left-0 top-4 right-0 -translate-y-[calc(100%+5rem)] z-50 w-full max-w-[78rem] mx-auto flex items-center p-4 text-sm text-gray-800 rounded-lg bg-gray-50 dark:bg-gray-800 dark:text-gray-300 shadow duration-700 ease-in-out"
-        <?php endif ?> role="alert">
-        <svg class="flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-            fill="currentColor" viewBox="0 0 20 20">
-            <path
-                d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
-        </svg>
-        <span class="sr-only">Info</span>
-        <div>
-            <span class="font-medium">
-                <?= $title ?>
+    <div id="toast-<?= $type ?>"
+        class="flex items-center w-full max-w-xs p-4 text-gray-500 bg-white rounded-lg shadow dark:text-gray-400 dark:bg-gray-800"
+        role="toast">
+        <div
+            class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 <?= ($type === 'success') ? ' text-green-500 bg-green-100 rounded-lg dark:bg-green-800 dark:text-green-200' : (($type === 'danger') ? ' text-red-500 bg-red-100 rounded-lg dark:bg-red-800 dark:text-red-200' : ' text-orange-500 bg-orange-100 rounded-lg dark:bg-orange-700 dark:text-orange-200') ?>">
+            <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                viewBox="0 0 20 20">
+                <path
+                    d="<?= ($type === 'success') ? 'M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z' : (($type === 'danger') ? 'M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 11.793a1 1 0 1 1-1.414 1.414L10 11.414l-2.293 2.293a1 1 0 0 1-1.414-1.414L8.586 10 6.293 7.707a1 1 0 0 1 1.414-1.414L10 8.586l2.293-2.293a1 1 0 0 1 1.414 1.414L11.414 10l2.293 2.293Z' : 'M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM10 15a1 1 0 1 1 0-2 1 1 0 0 1 0 2Zm1-4a1 1 0 0 1-2 0V6a1 1 0 0 1 2 0v5Z') ?>" />
+            </svg>
+            <span class="sr-only">
+                <?= ($type === 'success') ? 'Check' : (($type === 'danger') ? 'Error' : 'Warning') ?> icon
             </span>
+        </div>
+        <div class="ms-3 text-sm font-normal">
             <?= $message ?>
         </div>
+        <button type="button"
+            class="ms-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700"
+            data-dismiss-target="#toast-<?= $type ?>" aria-label="Close">
+            <span class="sr-only">Close</span>
+            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+            </svg>
+        </button>
     </div>
+    <?php ob_start(); ?>
     <script>
+        var script = document.currentScript;
         setTimeout(function () {
-            var alert = document.getElementById('alert');
-            alert.classList.remove('-translate-y-[calc(100%+5rem)]');
+            var toast = document.getElementById('toast');
+            toast.classList.remove('translate-x-[calc(100%+5rem)]');
             setTimeout(function () {
-                alert.classList.add('-translate-y-[calc(100%+5rem)]');
+                toast.classList.add('translate-x-[calc(100%+5rem)]');
             }, 5000);
+            setTimeout(function () {
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', '<?= $folder_name ?>/komponen/delete-session.php', true);
+                xhr.send();
+                toast.parentNode.removeChild(toast);
+                script.parentNode.removeChild(script);
+            }, 6000);
         }, 100);
-
-        var elementToDelete = document.getElementById('alert');
-        var scriptToDelete = document.currentScript;
-
-        setTimeout(function () {
-            var xhr = new XMLHttpRequest();
-            xhr.open("GET", "/lsp-tiket/komponen/delete-session.php", true);
-            xhr.send();
-            elementToDelete.parentNode.removeChild(elementToDelete);
-            scriptToDelete.parentNode.removeChild(scriptToDelete);
-        }, 6000);
     </script>
-<?php endif; ?>
+    <?php
+    $additionalScript = ob_get_clean();
+endif;
+?>
