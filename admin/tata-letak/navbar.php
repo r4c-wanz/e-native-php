@@ -1,4 +1,4 @@
-<nav class="fixed left-0 top-0 right-0 z-50 bg-white border-gray-200 dark:bg-gray-900 shadow">
+<nav class="fixed left-0 top-0 right-0 z-40 bg-white border-gray-200 dark:bg-gray-900 shadow">
     <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         <a href="/lsp-rachel" class="flex items-center space-x-3 rtl:space-x-reverse">
             <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">E-Ticketing</span>

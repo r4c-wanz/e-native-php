@@ -1,23 +1,22 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['auth'])) {
+function addAlert ($title, $message, $type) {
     $_SESSION['alert'] = array(
-        'title' => 'Belum login!',
-        'message' => 'Anda belum melakukan login, silahkan login terlebih dahulu.',
-        'type' => 'warning',
+        'title' => $title,
+        'message' => $message,
+        'type' => $type,
         'timestamp' => time()
     );
+}
+
+if (!isset($_SESSION['auth'])) {
+    addAlert('Belum login!', 'Anda belum melakukan login, silahkan login terlebih dahulu.', 'warning');
 
     header('location: ../');
 } else {
     if ($_SESSION['auth']['role'] !== $role) {
-        $_SESSION['alert'] = array(
-            'title' => 'Dilarang masuk!',
-            'message' => "Maaf, Anda tidak memiliki akses ke halaman ini.",
-            'type' => 'danger',
-            'timestamp' => time()
-        );
+        addAlert('Dilarang masuk!', 'Maaf, Anda tidak memiliki akses ke halaman ini.', 'danger');
 
         header('location: ../');
     } else {
