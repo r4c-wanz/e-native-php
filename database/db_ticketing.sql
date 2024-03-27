@@ -2,10 +2,10 @@
 -- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Feb 29, 2024 at 10:55 AM
--- Server version: 10.4.27-MariaDB
--- PHP Version: 8.2.0
+-- Host: localhost:3306
+-- Generation Time: Mar 27, 2024 at 01:15 PM
+-- Server version: 8.0.30
+-- PHP Version: 8.3.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -28,11 +28,11 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `jadwal_penerbangan` (
-  `id_jadwal` int(11) NOT NULL,
-  `id_rute` int(11) NOT NULL,
+  `id_jadwal` int NOT NULL,
+  `id_rute` int NOT NULL,
   `waktu_berangkat` time NOT NULL,
   `waktu_tiba` time NOT NULL,
-  `harga` int(11) NOT NULL
+  `harga` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -42,18 +42,9 @@ CREATE TABLE `jadwal_penerbangan` (
 --
 
 CREATE TABLE `kota` (
-  `id_kota` int(11) NOT NULL,
-  `nama_kota` varchar(100) NOT NULL
+  `id_kota` int NOT NULL,
+  `nama_kota` varchar(100) COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `kota`
---
-
-INSERT INTO `kota` (`id_kota`, `nama_kota`) VALUES
-(1, 'Bandung'),
-(2, 'Jakarta'),
-(3, 'Bali');
 
 -- --------------------------------------------------------
 
@@ -62,18 +53,11 @@ INSERT INTO `kota` (`id_kota`, `nama_kota`) VALUES
 --
 
 CREATE TABLE `maskapai` (
-  `id_maskapai` int(11) NOT NULL,
-  `logo_maskapai` text NOT NULL,
-  `nama_maskapai` varchar(100) NOT NULL,
-  `kapasitas` int(11) NOT NULL
+  `id_maskapai` int NOT NULL,
+  `logo_maskapai` text COLLATE utf8mb4_general_ci NOT NULL,
+  `nama_maskapai` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `kapasitas` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `maskapai`
---
-
-INSERT INTO `maskapai` (`id_maskapai`, `logo_maskapai`, `nama_maskapai`, `kapasitas`) VALUES
-(1, 'gambar1.jpg', 'Maskapai', 210);
 
 -- --------------------------------------------------------
 
@@ -82,12 +66,12 @@ INSERT INTO `maskapai` (`id_maskapai`, `logo_maskapai`, `nama_maskapai`, `kapasi
 --
 
 CREATE TABLE `order_detail` (
-  `id_order_detail` int(11) NOT NULL,
-  `id_user` int(11) NOT NULL,
-  `id_jadwal` int(11) NOT NULL,
-  `id_order` varchar(20) NOT NULL,
-  `jumlah_tiket` int(11) NOT NULL,
-  `total_harga` int(11) NOT NULL
+  `id_order_detail` int NOT NULL,
+  `id_user` int NOT NULL,
+  `id_jadwal` int NOT NULL,
+  `id_order` varchar(20) COLLATE utf8mb4_general_ci NOT NULL,
+  `jumlah_tiket` int NOT NULL,
+  `total_harga` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -97,9 +81,9 @@ CREATE TABLE `order_detail` (
 --
 
 CREATE TABLE `order_tiket` (
-  `id_order` varchar(20) NOT NULL,
+  `id_order` varchar(20) COLLATE utf8mb4_general_ci NOT NULL,
   `tanggal_transaksi` date NOT NULL,
-  `struk` varchar(100) NOT NULL
+  `struk` varchar(100) COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -109,10 +93,10 @@ CREATE TABLE `order_tiket` (
 --
 
 CREATE TABLE `rute` (
-  `id_rute` int(11) NOT NULL,
-  `id_maskapai` int(11) NOT NULL,
-  `rute_asal` varchar(100) NOT NULL,
-  `rute_tujuan` varchar(100) NOT NULL,
+  `id_rute` int NOT NULL,
+  `id_maskapai` int NOT NULL,
+  `rute_asal` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `rute_tujuan` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
   `tanggal_pergi` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -123,23 +107,12 @@ CREATE TABLE `rute` (
 --
 
 CREATE TABLE `user` (
-  `id_user` int(11) NOT NULL,
-  `username` varchar(100) NOT NULL,
-  `nama_lengkap` varchar(100) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `roles` enum('Admin','Petugas','Penumpang') NOT NULL
+  `id_user` int NOT NULL,
+  `username` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `nama_lengkap` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `password` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `roles` enum('Admin','Petugas','Penumpang') COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `user`
---
-
-INSERT INTO `user` (`id_user`, `username`, `nama_lengkap`, `password`, `roles`) VALUES
-(1, 'admin', 'Rachel Setyawan', '12345678', 'Admin'),
-(2, 'petugas', 'Rachel Setyawan', '12345678', 'Petugas'),
-(3, 'petugas', 'Rachel Setyawan', '12345678', 'Penumpang'),
-(4, 'admin', 'Rachel Setyawan', '12345678', 'Penumpang'),
-(5, 'admin', 'Rachel Setyawan', '12345678', 'Penumpang');
 
 --
 -- Indexes for dumped tables
@@ -200,37 +173,37 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `jadwal_penerbangan`
 --
 ALTER TABLE `jadwal_penerbangan`
-  MODIFY `id_jadwal` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_jadwal` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `kota`
 --
 ALTER TABLE `kota`
-  MODIFY `id_kota` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_kota` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `maskapai`
 --
 ALTER TABLE `maskapai`
-  MODIFY `id_maskapai` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_maskapai` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `order_detail`
 --
 ALTER TABLE `order_detail`
-  MODIFY `id_order_detail` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_order_detail` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `rute`
 --
 ALTER TABLE `rute`
-  MODIFY `id_rute` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_rute` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_user` int NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables
@@ -240,13 +213,14 @@ ALTER TABLE `user`
 -- Constraints for table `jadwal_penerbangan`
 --
 ALTER TABLE `jadwal_penerbangan`
-  ADD CONSTRAINT `jadwal_penerbangan_ibfk_1` FOREIGN KEY (`id_jadwal`) REFERENCES `order_detail` (`id_jadwal`);
+  ADD CONSTRAINT `jadwal_penerbangan_ibfk_2` FOREIGN KEY (`id_rute`) REFERENCES `rute` (`id_rute`);
 
 --
 -- Constraints for table `order_detail`
 --
 ALTER TABLE `order_detail`
-  ADD CONSTRAINT `order_detail_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`);
+  ADD CONSTRAINT `order_detail_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`),
+  ADD CONSTRAINT `order_detail_ibfk_2` FOREIGN KEY (`id_jadwal`) REFERENCES `jadwal_penerbangan` (`id_jadwal`);
 
 --
 -- Constraints for table `order_tiket`
@@ -258,7 +232,6 @@ ALTER TABLE `order_tiket`
 -- Constraints for table `rute`
 --
 ALTER TABLE `rute`
-  ADD CONSTRAINT `rute_ibfk_1` FOREIGN KEY (`id_rute`) REFERENCES `jadwal_penerbangan` (`id_rute`),
   ADD CONSTRAINT `rute_ibfk_2` FOREIGN KEY (`id_maskapai`) REFERENCES `maskapai` (`id_maskapai`);
 COMMIT;
 
