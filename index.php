@@ -1,29 +1,19 @@
 <?php
 session_start();
 
+if (isset($_SESSION['auth'])) {
+    if ($_SESSION['auth']['role'] === 'Administrator') {
+        header('location: ./administrator');
+    } elseif ($_SESSION['auth']['role'] === 'Maskapai') {
+        header('location: ./maskapai');
+    }
+}
+
 $path = $_SERVER['SCRIPT_FILENAME'];
 
 $folder_name = '/' . explode('/', $path)[3];
 
 include './config.php';
-
-function takeFirstLetter($nama_lengkap)
-{
-    $words = explode(" ", $nama_lengkap);
-    $inisial_nama = "";
-
-    foreach ($words as $word) {
-        $inisial_nama .= substr($word, 0, 1);
-    }
-
-    return $inisial_nama;
-}
-
-if (isset($_SESSION['auth'])) {
-    $nama_lengkap = $_SESSION['auth']['nama_lengkap'];
-    $inisial_nama = takeFirstLetter($nama_lengkap);
-    $username = $_SESSION['auth']['username'];
-}
 
 if (isset($_POST['login'])) {
     $username = $_POST['username'];
@@ -40,6 +30,18 @@ if (isset($_POST['login'])) {
                 'nama_lengkap' => $data['nama_lengkap'],
                 'role' => $data['roles']
             );
+
+            function takeFirstLetter($nama_lengkap)
+            {
+                $words = explode(" ", $nama_lengkap);
+                $inisial_nama = "";
+
+                foreach ($words as $word) {
+                    $inisial_nama .= substr($word, 0, 1);
+                }
+
+                return $inisial_nama;
+            }
 
             $nama_lengkap = $_SESSION['auth']['nama_lengkap'];
             $inisial_nama = takeFirstLetter($nama_lengkap);
@@ -154,7 +156,8 @@ ob_start();
                     </ul>
                 </div>
             <?php else: ?>
-                <a href="<?= $_SESSION['auth']['role'] === 'Administrator' ? 'administrator' : 'maskapai' ?>" class="border border-gray-700 hover:border-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:border-gray-600 dark:hover:border-gray-700 dark:focus:ring-gray-800">Dashboard</a>
+                <a href="<?= $_SESSION['auth']['role'] === 'Administrator' ? 'administrator' : 'maskapai' ?>"
+                    class="border border-gray-700 hover:border-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:border-gray-600 dark:hover:border-gray-700 dark:focus:ring-gray-800">Dashboard</a>
             <?php endif ?>
         <?php endif ?>
     </div>
