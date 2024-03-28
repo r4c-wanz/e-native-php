@@ -1,5 +1,5 @@
 <?php
-$role = 'Administrator';
+$role = 'Maskapai';
 include '../auth-role-check.php';
 include '../config.php';
 

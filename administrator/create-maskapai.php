@@ -1,6 +1,6 @@
 <?php
 $role = 'Administrator';
-include '../auth_check.php';
+include '../auth-role-check.php';
 include '../config.php';
 
 $pageTitle = 'Tambah Data Maskapai';

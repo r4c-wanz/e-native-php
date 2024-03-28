@@ -5,11 +5,24 @@ include '../config.php';
 
 $pageTitle = 'Tambah Data Rute';
 
-$additionalScripts = [dirname(dirname($_SERVER['PHP_SELF'])) . '/node_modules/flowbite/dist/datepicker.min.js'];
+$path = $_SERVER['SCRIPT_FILENAME'];
+
+$folder_name = '/' . explode('/', $path)[3];
+
+$additionalScripts = ['/node_modules/flowbite/dist/datepicker.min.js'];
 
 $data_maskapai = mysqli_query($host, "SELECT * FROM maskapai");
 
 $data_kota = mysqli_query($host, "SELECT * FROM kota");
+
+function addToast($message, $type)
+{
+    $_SESSION['toast'] = array(
+        'message' => $message,
+        'type' => $type,
+        'time' => time()
+    );
+}
 
 if (isset ($_POST['submit'])) {
     $id_maskapai = $_POST['id_maskapai'];
@@ -20,11 +33,11 @@ if (isset ($_POST['submit'])) {
     $query = mysqli_query($host, "INSERT INTO rute (`id_maskapai` ,`rute_asal` ,`rute_tujuan` ,`tanggal_pergi`) VALUES ('$id_maskapai' ,'$rute_asal' ,'$rute_tujuan' ,STR_TO_DATE('$tanggal_pergi','%m/%d/%Y'))");
 
     if ($query) {
-        $_SESSION['message'] = 'Data rute berhasil dibuat! silahkan periksa kembali untuk memastikan';
+        addToast('Data rute berhasil dibuat! silahkan periksa kembali untuk memastikan', 'success');
 
         header('location: ./index.php');
     } else {
-        $_SESSION['message'] = 'Data rute gagal dibuat! silahkan periksa kembali data yang anda masukan';
+        addToast('Data rute gagal dibuat! silahkan periksa kembali data yang anda masukan', 'warning');
     }
 }
 
