@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Mar 27, 2024 at 01:15 PM
+-- Generation Time: Mar 28, 2024 at 12:39 AM
 -- Server version: 8.0.30
--- PHP Version: 8.3.4
+-- PHP Version: 8.1.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `db_ticketing`
+-- Database: `db_e_ticketing_airplane`
 --
 
 -- --------------------------------------------------------
@@ -43,7 +43,7 @@ CREATE TABLE `jadwal_penerbangan` (
 
 CREATE TABLE `kota` (
   `id_kota` int NOT NULL,
-  `nama_kota` varchar(100) COLLATE utf8mb4_general_ci NOT NULL
+  `nama_kota` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -54,8 +54,8 @@ CREATE TABLE `kota` (
 
 CREATE TABLE `maskapai` (
   `id_maskapai` int NOT NULL,
-  `logo_maskapai` text COLLATE utf8mb4_general_ci NOT NULL,
-  `nama_maskapai` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `logo_maskapai` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `nama_maskapai` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `kapasitas` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -69,7 +69,7 @@ CREATE TABLE `order_detail` (
   `id_order_detail` int NOT NULL,
   `id_user` int NOT NULL,
   `id_jadwal` int NOT NULL,
-  `id_order` varchar(20) COLLATE utf8mb4_general_ci NOT NULL,
+  `id_order` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `jumlah_tiket` int NOT NULL,
   `total_harga` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -81,9 +81,9 @@ CREATE TABLE `order_detail` (
 --
 
 CREATE TABLE `order_tiket` (
-  `id_order` varchar(20) COLLATE utf8mb4_general_ci NOT NULL,
+  `id_order` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `tanggal_transaksi` date NOT NULL,
-  `struk` varchar(100) COLLATE utf8mb4_general_ci NOT NULL
+  `struk` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -95,8 +95,8 @@ CREATE TABLE `order_tiket` (
 CREATE TABLE `rute` (
   `id_rute` int NOT NULL,
   `id_maskapai` int NOT NULL,
-  `rute_asal` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
-  `rute_tujuan` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `rute_asal` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `rute_tujuan` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `tanggal_pergi` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -108,10 +108,10 @@ CREATE TABLE `rute` (
 
 CREATE TABLE `user` (
   `id_user` int NOT NULL,
-  `username` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
-  `nama_lengkap` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
-  `password` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `roles` enum('Admin','Petugas','Penumpang') COLLATE utf8mb4_general_ci NOT NULL
+  `username` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `nama_lengkap` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `roles` enum('Pelanggan','Maskapai','Administrator') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --

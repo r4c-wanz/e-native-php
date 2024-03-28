@@ -1,1 +1,1 @@
-<?php $host = mysqli_connect('localhost', 'root', null, 'db_ticketing');
+<?php $host = mysqli_connect('localhost', 'root', null, 'db_e_ticketing_airplane');
