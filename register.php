@@ -8,38 +8,43 @@ if (isset($_POST['register'])) {
     $username = $_POST['username'];
     $nama_lengkap = $_POST['nama_lengkap'];
     $password = $_POST['password'];
-    $roles = $_POST['roles'];
+    $roles = $_POST['roles'] === 'Administrator' ? 'Pelanggan' : $_POST['roles'];
 
     $query = mysqli_query($host, "INSERT INTO user (`username`,`nama_lengkap`,`password`,`roles`) VALUES ('$username','$nama_lengkap','$password','$roles')");
 
-    if ($query) {
-        $_SESSION['auth'] = array(
+    function auth()
+    {
+        $_SESSION['toast'] = array(
             'username' => $username,
             'nama_lengkap' => $nama_lengkap,
             'role' => $roles
         );
+    }
 
-        if ($roles === 'Penumpang') {
-            header('location: ./penumpang');
-        } elseif ($roles === 'Petugas') {
-            header('location: ./petugas');
-        } elseif ($roles === 'Admin') {
-            header('location: ./admin');
+    function addValidation($text, $status)
+    {
+        $_SESSION['toast'] = array(
+            'text' => $text,
+            'status' => $status
+        );
+    }
+
+    if ($query) {
+        auth();
+
+        if ($roles === 'Pelanggan') {
+            header('location: ./pelanggan');
+        } elseif ($roles === 'Maskapai') {
+            header('location: ./maskapai');
         } else {
-            $_SESSION['validation'] = array(
-                'text' => 'Register gagal.',
-                'status' => 'warning'
-            );
+            $data_username = mysqli_query($host, "SELECT * FROM user WHERE username = $username");
 
-            header("Refresh:0");
+            if (mysqli_num_rows($data_username) > 0) {
+                addValidation('Register gagal.', 'warning');
+            }
         }
     } else {
-        $_SESSION['validation'] = array(
-            'text' => 'Register gagal.',
-            'status' => 'warning'
-        );
-
-        header("Refresh:0");
+        addValidation('Register gagal.', 'warning');
     }
 }
 
@@ -80,25 +85,25 @@ ob_start();
                             required="">
                     </div>
                     <div>
-                        <label for="penumpang"
+                        <label for="pelanggan"
                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Roles</label>
                         <ul
                             class="items-center w-full text-sm font-medium text-gray-900 bg-gray-50 border border-gray-300 rounded-lg sm:flex dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                             <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
                                 <div class="flex items-center ps-3">
-                                    <input id="penumpang" type="radio" value="Penumpang" name="roles"
+                                    <input id="pelanggan" type="radio" value="Pelanggan" name="roles"
                                         class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                                         required>
-                                    <label for="penumpang"
-                                        class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Penumpang</label>
+                                    <label for="pelanggan"
+                                        class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Pelanggan</label>
                                 </div>
                             </li>
                             <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
                                 <div class="flex items-center ps-3">
-                                    <input id="petugas" type="radio" value="Petugas" name="roles"
+                                    <input id="maskapai" type="radio" value="Maskapai" name="roles"
                                         class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                                    <label for="petugas"
-                                        class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Petugas</label>
+                                    <label for="maskapai"
+                                        class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Maskapai</label>
                                 </div>
                             </li>
                         </ul>
